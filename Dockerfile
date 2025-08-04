@@ -42,8 +42,8 @@ WORKDIR /app
 COPY --from=builder2 /build/one-api .
 RUN mv one-api $(openssl rand -hex 8)
 
-# 创建非 root 用户和组
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+# 创建非 root 用户和组（Debian 风格）
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup --no-create-home appuser
 
 # 创建并授权必要的目录
 RUN mkdir -p /data/logs /data/.streamlit /data/.config/caddy \
