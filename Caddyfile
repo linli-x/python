@@ -1,4 +1,14 @@
+{
+    http_port 7860
+}
+
 :7860 {
+    log
+
+    trusted_proxies {
+        source {{.EDGEONE_IPS}}
+    }
+
     @edgeone {
         remote_ip {{.EDGEONE_IPS}}
     }

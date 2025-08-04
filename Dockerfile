@@ -42,7 +42,17 @@ WORKDIR /app
 COPY --from=builder2 /build/one-api .
 RUN mv one-api $(openssl rand -hex 8)
 
-EXPOSE 7860
-RUN mkdir -p /data/logs && chmod 777 /data/logs
+# 创建非 root 用户和组
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# 创建并授权必要的目录
+RUN mkdir -p /data/logs /data/.streamlit /data/.config/caddy \
+    && chown -R appuser:appgroup /app /data
+
+# 切换到非 root 用户
+USER appuser
 WORKDIR /data
+
+# 暴露端口并设置入口点
+EXPOSE 7860
 ENTRYPOINT ["/entrypoint.sh"]

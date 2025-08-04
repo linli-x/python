@@ -42,9 +42,11 @@ sed -e "s,{{.EDGEONE_IPS}},$EDGEONE_IPS," \
 
 # 在后台启动主应用程序
 if [ -d "/app" ] && [ -n "$(ls -A /app)" ]; then
+    echo "[entrypoint.sh] 正在启动 one-api 服务..."
     /app/$(ls /app) &
+    echo "[entrypoint.sh] one-api 服务已在后台启动。"
 else
-    echo "警告：/app 目录为空或不存在，不启动主应用程序。"
+    echo "[entrypoint.sh] 警告：/app 目录为空或不存在，不启动主应用程序。"
 fi
 
 # 启动 Caddy
