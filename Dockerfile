@@ -23,13 +23,25 @@ COPY . .
 COPY --from=builder /build/dist ./web/dist
 RUN go build -ldflags "-s -w -X 'one-api/common.Version=$(cat VERSION)'" -o one-api
 
-FROM alpine
+FROM python:3.9-slim
 
-RUN apk upgrade --no-cache \
-    && apk add --no-cache ca-certificates tzdata ffmpeg \
-    && update-ca-certificates
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    tzdata \
+    ffmpeg \
+    openssl \
+    curl \
+    caddy \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder2 /build/one-api /
-EXPOSE 3000
+COPY Caddyfile /etc/caddy/Caddyfile.template
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
+WORKDIR /app
+COPY --from=builder2 /build/one-api .
+RUN mv one-api $(openssl rand -hex 8)
+
+EXPOSE 7860
 WORKDIR /data
-ENTRYPOINT ["/one-api"]
+ENTRYPOINT ["/entrypoint.sh"]
