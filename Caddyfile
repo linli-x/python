@@ -1,10 +1,11 @@
 :7860 {
     log
 
-    @edgeone {
-        remote_ip forwarded {{.EDGEONE_IPS}}
-    }
+    # 如果请求包含 Cdn-Loop Header，并且值包含 TencentEdgeOne，就匹配
+    @edgeone header Cdn-Loop *TencentEdgeOne*
+    
     reverse_proxy @edgeone localhost:3000
 
+    # 所有其他请求代理到下游应用
     reverse_proxy localhost:{{.OTHER_PORT | default "8080"}}
 }
