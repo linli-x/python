@@ -1,44 +1,8 @@
-{
-    "apps": {
-        "http": {
-            "servers": {
-                "srv0": {
-                    "listen": [":7860"],
-                    "routes": [
-                        {
-                            "match": [
-                                {
-                                    "remote_ip": {
-                                        "ranges": "{{.EDGEONE_IPS}}"
-                                    }
-                                }
-                            ],
-                            "handle": [
-                                {
-                                    "handler": "reverse_proxy",
-                                    "upstreams": [
-                                        {
-                                            "dial": "localhost:3000"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "handle": [
-                                {
-                                    "handler": "reverse_proxy",
-                                    "upstreams": [
-                                        {
-                                            "dial": "localhost:{{.OTHER_PORT | default "8080"}}"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            }
-        }
+:7860 {
+    @edgeone {
+        remote_ip {{.EDGEONE_IPS}}
     }
+    reverse_proxy @edgeone localhost:3000
+
+    reverse_proxy localhost:{{.OTHER_PORT | default "8080"}}
 }

@@ -43,5 +43,6 @@ COPY --from=builder2 /build/one-api .
 RUN mv one-api $(openssl rand -hex 8)
 
 EXPOSE 7860
+RUN mkdir -p /data/logs && chmod 777 /data/logs
 WORKDIR /data
 ENTRYPOINT ["/entrypoint.sh"]
