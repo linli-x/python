@@ -47,7 +47,9 @@ RUN addgroup --system appgroup && adduser --system --ingroup appgroup --no-creat
 
 # 创建并授权必要的目录
 RUN mkdir -p /data/logs /data/.streamlit /data/.config/caddy \
-    && chown -R appuser:appgroup /app /data
+    && chown -R appuser:appgroup /app /data \
+    && mkdir -p /app/logs \
+    && chown -R appuser:appgroup /app/logs
 
 # 切换到非 root 用户
 USER appuser
