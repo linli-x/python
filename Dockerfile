@@ -31,6 +31,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tzdata \
     ffmpeg \
     openssl \
+    curl \
+    gpg \
     debian-keyring \
     debian-archive-keyring \
     apt-transport-https \
