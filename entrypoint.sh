@@ -13,10 +13,10 @@ fi
 # 从模板生成 Caddyfile
 sed -e "s,{{.EDGEONE_IPS}},$EDGEONE_IPS," \
     -e "s,{{.OTHER_PORT | default \"8080\"}},${OTHER_PORT:-8080}," \
-    /etc/caddy/Caddyfile.template > /etc/caddy/Caddyfile
+    /etc/caddy/Caddyfile.template > /tmp/Caddyfile
 
 # 在后台启动主应用程序
 /app/$(ls /app) &
 
 # 启动 Caddy
-exec caddy run --config /etc/caddy/Caddyfile
+exec caddy run --config /tmp/Caddyfile --adapter caddyfile
