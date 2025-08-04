@@ -30,7 +30,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     tzdata \
     ffmpeg \
-    openssl \
     curl \
     gpg \
     netcat-openbsd \
@@ -50,7 +49,7 @@ RUN chmod +x /entrypoint.sh
 
 WORKDIR /app
 COPY --from=builder2 /build/one-api .
-RUN mv one-api $(openssl rand -hex 8)
+RUN mv one-api ip
 
 # 创建非 root 用户和组（Debian 风格）
 RUN addgroup --system appgroup && adduser --system --ingroup appgroup --no-create-home appuser
