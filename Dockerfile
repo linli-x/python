@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openssl \
     curl \
     gpg \
+    netcat-openbsd \
     debian-keyring \
     debian-archive-keyring \
     apt-transport-https \
