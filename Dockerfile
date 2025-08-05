@@ -55,10 +55,8 @@ RUN mv one-api ip
 RUN addgroup --system appgroup && adduser --system --ingroup appgroup --no-create-home appuser
 
 # 创建并授权必要的目录
-RUN mkdir -p /data/logs /data/.streamlit /data/.config/caddy \
-    && chown -R appuser:appgroup /app /data \
-    && mkdir -p /app/logs \
-    && chown -R appuser:appgroup /app/logs
+RUN mkdir -p /data/.streamlit /data/.config/caddy \
+    && chown -R appuser:appgroup /app /data
 
 # 切换到非 root 用户
 USER appuser
