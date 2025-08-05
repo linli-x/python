@@ -1,6 +1,4 @@
 :7860 {
-    log
-
     # 如果请求包含 Cdn-Loop Header，并且值包含 TencentEdgeOne，就匹配
     @edgeone header Cdn-Loop *TencentEdgeOne*
     
